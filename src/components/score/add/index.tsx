@@ -1,11 +1,11 @@
 import _ from "lodash";
+import moment from "moment";
+import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Container, Tooltip, Typography } from "@mui/material";
 
-import { getScore } from "../../services/score";
-import { ScoreSkeleton } from "../core/scoreSkeleton";
-import { useParams } from "react-router";
-import moment from "moment";
+import { getScore } from "../../../services/score";
+import { ScoreSkeleton } from "../../core/scoreSkeleton";
 
 export default () => {
   const { scoreId } = useParams();

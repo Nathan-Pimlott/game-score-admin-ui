@@ -1,14 +1,23 @@
 import { IGenre } from "../types";
 import { get } from "../utils/request";
 
-export async function getGenres(): Promise<IGenre[]> {
-  const genresRes = await get("/genres");
+export async function getGenres(
+  pageNumber: number,
+  rowsPerPage: number,
+): Promise<IGenre[]> {
+  try {
+    const genreRes = await get(
+      `/genres?limit=${rowsPerPage}&offset=${pageNumber * rowsPerPage}`,
+    );
 
-  if (genresRes.error) {
-    throw Error("Error getting genres. Please try again later.");
+    if (!genreRes.error) {
+      return genreRes.data.genres as IGenre[];
+    }
+
+    return [];
+  } catch (error) {
+    return [];
   }
-
-  return genresRes.data.genres as IGenre[];
 }
 
 export async function getGenre(id: string): Promise<IGenre | false> {
@@ -22,5 +31,33 @@ export async function getGenre(id: string): Promise<IGenre | false> {
     return genreRes.data.genres as IGenre;
   } catch (error) {
     return false;
+  }
+}
+
+export async function deleteGenre(id: string): Promise<boolean> {
+  try {
+    const deleteGenreRes = await del(`/genre/${id}`);
+
+    if (!deleteGenreRes.error) {
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function getGenreCount(): Promise<number> {
+  try {
+    const countRes = await get("/genre/count");
+
+    if (!countRes.error) {
+      return countRes.data.count;
+    }
+
+    return 0;
+  } catch (error) {
+    return 0;
   }
 }

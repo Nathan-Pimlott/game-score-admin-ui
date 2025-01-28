@@ -4,7 +4,6 @@ import { pink } from "@mui/material/colors";
 
 import Routes from "./components/routes";
 import AppBar from "./components/core/appBar";
-import Footer from "./components/core/footer";
 import { BrowserRouter } from "react-router";
 
 export default function App() {
@@ -39,7 +38,6 @@ export default function App() {
             <Container style={{ flex: 1, padding: 0 }}>
               <Routes />
             </Container>
-            <Footer />
           </div>
         </BrowserRouter>
       </QueryClientProvider>

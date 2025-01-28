@@ -20,12 +20,14 @@ export interface IGenre {
   id: string;
   name: string;
   featuredScores?: IScoreCompact[];
+  scoreCount?: number;
 }
 
 export interface IPlatform {
   id: string;
   name: Platform;
   featuredScores?: IScoreCompact[];
+  scoreCount?: number;
 }
 
 export interface IThoughts {

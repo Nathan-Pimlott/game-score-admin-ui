@@ -9,7 +9,7 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:3000",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "/admin/"),
+        rewrite: (path) => path.replace(/^\/api/, "/admin"),
 
         configure: (proxy, options) => {
           proxy.on("error", (err, _req, _res) => {

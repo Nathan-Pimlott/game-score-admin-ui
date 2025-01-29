@@ -2,8 +2,8 @@ import { IPlatform } from "../types";
 import { get } from "../utils/request";
 
 export async function getPlatforms(
-  pageNumber: number,
-  rowsPerPage: number,
+  pageNumber: number = 0,
+  rowsPerPage: number = 100,
 ): Promise<IPlatform[]> {
   try {
     const platformRes = await get(

@@ -2,8 +2,8 @@ import { IGenre } from "../types";
 import { get } from "../utils/request";
 
 export async function getGenres(
-  pageNumber: number,
-  rowsPerPage: number,
+  pageNumber: number = 0,
+  rowsPerPage: number = 100,
 ): Promise<IGenre[]> {
   try {
     const genreRes = await get(

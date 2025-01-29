@@ -34,9 +34,15 @@ export async function getScore(id: string): Promise<IScore | false> {
   }
 }
 
-export async function getScoresBySearch(searchText: string): Promise<IScore[]> {
+export async function getScoresBySearch(
+  searchText: string,
+  pageNumber: number,
+  rowsPerPage: number,
+): Promise<IScore[]> {
   try {
-    const scoreRes = await get(`/search?searchText=${encodeURI(searchText)}`);
+    const scoreRes = await get(
+      `/search?searchText=${encodeURI(searchText)}&limit=${rowsPerPage}&offset=${pageNumber * rowsPerPage}`,
+    );
 
     if (!scoreRes.error) {
       return scoreRes.data.scores;
@@ -79,6 +85,20 @@ export async function deleteScore(id: string): Promise<boolean> {
 export async function getScoreCount(): Promise<number> {
   try {
     const countRes = await get("/score/count");
+
+    if (!countRes.error) {
+      return countRes.data.count;
+    }
+
+    return 0;
+  } catch (error) {
+    return 0;
+  }
+}
+
+export async function getSearchScoreCount(searchText: string): Promise<number> {
+  try {
+    const countRes = await get(`/search/count?searchText=${searchText}`);
 
     if (!countRes.error) {
       return countRes.data.count;

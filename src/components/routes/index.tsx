@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Scores from "../scores";
 import EditScore from "../score/edit";
 import AddScore from "../score/add";
+import AddThoughts from "../thoughts/add";
 import Genres from "../genres";
 import EditGenre from "../genre";
 import Platforms from "../platforms";
@@ -15,6 +16,7 @@ export default function App() {
     <Routes>
       <Route index element={<Scores />} />
       <Route path="/score/add" element={<AddScore />} />
+      <Route path="/score/thoughts/:scoreId" element={<AddThoughts />} />
       <Route path="/score/:scoreId" element={<EditScore />} />
       <Route path="/genres" element={<Genres />} />
       <Route path="/genre/:genreId" element={<EditGenre />} />

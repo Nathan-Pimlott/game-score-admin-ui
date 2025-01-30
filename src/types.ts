@@ -11,7 +11,7 @@ export interface IScoreCompact {
 export interface IScore extends IScoreCompact {
   playedPlatforms?: IPlatform[];
   genres?: IGenre[];
-  thoughts?: IThoughts[];
+  thoughts?: IThought[];
 }
 
 export type IScoreToCreate = Omit<IScore, "id"> & {
@@ -33,9 +33,13 @@ export interface IPlatform {
   scoreCount?: number;
 }
 
-export interface IThoughts {
+export interface IThought {
   id: string;
   priority: number;
   title: string;
   body: string;
 }
+
+export type IThoughtToCreate = Omit<IThought, "id"> & {
+  scoreId: string;
+};

@@ -1,5 +1,5 @@
 import { IGenre } from "../types";
-import { get } from "../utils/request";
+import { del, get } from "../utils/request";
 
 export async function getGenres(
   pageNumber: number = 0,

@@ -82,7 +82,7 @@ export default () => {
                   console.log({ createScoreRes });
 
                   if (createScoreRes) {
-                    navigate(`/scores/thoughts/${createScoreRes}`);
+                    navigate(`/score/thoughts/${createScoreRes}`);
                   }
                 }}
               >

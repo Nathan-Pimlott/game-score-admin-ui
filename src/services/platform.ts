@@ -1,5 +1,5 @@
 import { IPlatform } from "../types";
-import { get } from "../utils/request";
+import { del, get } from "../utils/request";
 
 export async function getPlatforms(
   pageNumber: number = 0,

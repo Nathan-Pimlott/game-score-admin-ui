@@ -33,3 +33,21 @@ export const createScoreSchema = yup.object().shape({
     .max(10, "No more than 10 platforms are allowed.")
     .required("You must select at least 1 platform."),
 });
+
+export const createThoughtSchema = yup.object().shape({
+  title: yup
+    .string()
+    .min(2, "Title must be at least 2 characters.")
+    .max(50, "Title cannot exceed 50 characters.")
+    .required("Title is required."),
+  body: yup
+    .string()
+    .min(10, "Body must be at least 10 characters.")
+    .max(10000, "Body cannot exceed 10,000 characters.")
+    .required("Body is required."),
+  priority: yup
+    .number()
+    .min(1, "Priority must be at least 1.")
+    .max(99, "Priority cannot be greater than 99.")
+    .required("Priority is required."),
+});

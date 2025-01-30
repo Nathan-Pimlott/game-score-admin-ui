@@ -54,12 +54,14 @@ export async function getScoresBySearch(
   }
 }
 
-export async function createScore(score: IScoreToCreate): Promise<boolean> {
+export async function createScore(
+  score: IScoreToCreate,
+): Promise<string | false> {
   try {
-    const createScoreRes = await post("/score", { body: score });
+    const createScoreRes = await post("/score", score);
 
     if (!createScoreRes.error) {
-      return true;
+      return createScoreRes.data.id;
     }
 
     return false;

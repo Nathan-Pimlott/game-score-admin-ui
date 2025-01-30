@@ -26,6 +26,8 @@ import { getPlatforms } from "../../../services/platform";
 import { Loading } from "../../core/loading";
 import { createScoreSchema } from "../../../utils/schema";
 import { createScore } from "../../../services/score";
+import { formatScoreToCreate } from "../../../utils/format";
+import { useNavigate } from "react-router";
 
 const initialValues = {
   name: "",
@@ -37,6 +39,8 @@ const initialValues = {
 };
 
 export default () => {
+  const navigate = useNavigate();
+
   const {
     isPending: getGenresPending,
     error: getGenresError,
@@ -73,11 +77,13 @@ export default () => {
                 initialValues={initialValues}
                 validationSchema={createScoreSchema}
                 onSubmit={async (values) => {
-                  const createScoreRes = await createScore(values);
-                  if (!createScoreRes) {
-                    // Redirect to create thoughts for score.
+                  const formattedScore = formatScoreToCreate(values);
+                  const createScoreRes = await createScore(formattedScore);
+                  console.log({ createScoreRes });
+
+                  if (createScoreRes) {
+                    navigate(`/scores/thoughts/${createScoreRes}`);
                   }
-                  return;
                 }}
               >
                 {({
@@ -89,7 +95,7 @@ export default () => {
                 }) => {
                   return (
                     <FormControl fullWidth>
-                      <FormGroup>
+                      <FormGroup style={{ marginTop: 20 }}>
                         <FormLabel>Game name</FormLabel>
                         <TextField
                           fullWidth

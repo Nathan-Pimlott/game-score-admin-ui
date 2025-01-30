@@ -1,3 +1,4 @@
+import moment from "moment";
 import * as yup from "yup";
 
 export const createScoreSchema = yup.object().shape({
@@ -14,7 +15,10 @@ export const createScoreSchema = yup.object().shape({
   finishDate: yup
     .date()
     .min(new Date("2000-01-01"), "Finish date cannot be before the year 2000.")
-    .max(new Date(), "Finish date cannot be in the future.")
+    .max(
+      moment().format("YYYY-MM-DD 23:59:59"),
+      "Finish date cannot be in the future.",
+    )
     .required("Finish date is required."),
   genres: yup
     .array()

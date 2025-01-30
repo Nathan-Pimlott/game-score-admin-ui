@@ -14,7 +14,10 @@ export interface IScore extends IScoreCompact {
   thoughts?: IThoughts[];
 }
 
-export type IScoreToCreate = Omit<IScore, "id">;
+export type IScoreToCreate = Omit<IScore, "id"> & {
+  playedPlatforms: string[];
+  genres: string[];
+};
 
 export interface IGenre {
   id: string;

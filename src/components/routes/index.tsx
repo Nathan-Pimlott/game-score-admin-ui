@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Scores from "../scores";
 import EditScore from "../score/edit";
 import AddScore from "../score/add";
-import AddThoughts from "../thoughts/add";
+import AddThoughts from "../thoughts";
 import Genres from "../genres";
 import EditGenre from "../genre";
 import Platforms from "../platforms";

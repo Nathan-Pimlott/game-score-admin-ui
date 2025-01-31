@@ -19,6 +19,11 @@ export type IScoreToCreate = Omit<IScore, "id"> & {
   genres: string[];
 };
 
+export type IScoreToUpdate = IScore & {
+  playedPlatforms: string[];
+  genres: string[];
+};
+
 export interface IGenre {
   id: string;
   name: string;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import _ from "lodash";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Container, Grid2, Typography } from "@mui/material";
+import { Button, Container, Grid2 as Grid, Typography } from "@mui/material";
 
 import { deleteGenre, getGenreCount, getGenres } from "../../services/genre";
 import { GenreTable } from "./table";
@@ -64,7 +64,7 @@ export default () => {
           </Button>
         </Typography>
       </div>
-      <Grid2
+      <Grid
         container
         direction="column"
         style={{ marginTop: 10 }}
@@ -76,19 +76,21 @@ export default () => {
         {isPending || !genres || !genreCount ? (
           <Loading />
         ) : (
-          <GenreTable
-            genres={genres}
-            pageNumber={page}
-            setPageNumber={setPage}
-            genresPerPage={genresPerPage}
-            setGenresPerPage={setGenresPerPage}
-            genreCount={genreCount}
-            showDelete={genreToDelete}
-            setShowDelete={setGenreToDelete}
-            handleDeleteGenre={handleDeleteGenre}
-          />
+          <Grid size={{ xs: 12, sm: 8, md: 6, lg: 4 }}>
+            <GenreTable
+              genres={genres}
+              pageNumber={page}
+              setPageNumber={setPage}
+              genresPerPage={genresPerPage}
+              setGenresPerPage={setGenresPerPage}
+              genreCount={genreCount}
+              showDelete={genreToDelete}
+              setShowDelete={setGenreToDelete}
+              handleDeleteGenre={handleDeleteGenre}
+            />
+          </Grid>
         )}
-      </Grid2>
+      </Grid>
     </Container>
   );
 };

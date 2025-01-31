@@ -1,5 +1,5 @@
-import { IScore, IScoreToCreate } from "../types";
-import { del, get, post } from "../utils/request";
+import { IScore, IScoreToCreate, IScoreToUpdate } from "../types";
+import { del, get, post, put } from "../utils/request";
 
 export async function getScores(
   pageNumber: number,
@@ -62,6 +62,20 @@ export async function createScore(
 
     if (!createScoreRes.error) {
       return createScoreRes.data.id;
+    }
+
+    return false;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function updateScore(score: IScoreToUpdate): Promise<boolean> {
+  try {
+    const updateScoreRes = await put("/score", score);
+
+    if (!updateScoreRes.error) {
+      return true;
     }
 
     return false;

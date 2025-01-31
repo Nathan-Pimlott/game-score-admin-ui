@@ -36,6 +36,24 @@ export async function post(path: string, data: any) {
   };
 }
 
+export async function put(path: string, data: any) {
+  const res = await axios.put(`/api` + path, data);
+
+  if (res.status !== 201) {
+    return {
+      error: "An error has occurred",
+      code: res.status,
+      data: null,
+    };
+  }
+
+  return {
+    error: false,
+    code: res.status,
+    data: res.data,
+  };
+}
+
 export async function del(path: string, data?: any) {
   const res = await axios.delete(`/api` + path, data);
 

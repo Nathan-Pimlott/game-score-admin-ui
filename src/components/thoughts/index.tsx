@@ -1,3 +1,4 @@
+import * as React from "react";
 import _ from "lodash";
 import { useNavigate, useParams } from "react-router";
 import { Formik } from "formik";
@@ -12,23 +13,20 @@ import {
   Grid2 as Grid,
   Typography,
   Button,
+  Tooltip,
 } from "@mui/material";
 
 import { Loading } from "../core/loading";
-import { createThoughtSchema } from "../../utils/schema";
 import { getScore } from "../../services/score";
-import { createThought, getThoughts } from "../../services/thought";
-
-const initialValues = {
-  title: "",
-  body: "",
-  priority: 0,
-};
+import { getThoughts } from "../../services/thought";
+import { AddThoughtForm } from "./form";
+import { Add, Edit } from "@mui/icons-material";
+import { theme } from "../../utils/theme";
+import { ThoughtCard } from "./thoughtCard";
 
 export default () => {
-  const navigate = useNavigate();
   const { scoreId } = useParams();
-  console.log({ scoreId });
+  const navigate = useNavigate();
 
   const {
     isPending: scoreIsPending,
@@ -43,137 +41,64 @@ export default () => {
     isPending: thoughtsIsPending,
     error: thoughtsError,
     data: thoughts,
+    refetch: refetchThoughts,
   } = useQuery({
     queryKey: ["score-thoughts"],
     queryFn: async () => await getThoughts(scoreId as string),
   });
-  console.log({ scoreError });
+
+  const [showAddThought, setShowAddThought] = React.useState(false);
+  const [selectedThought, setSelectedThought] = React.useState<any>();
 
   if (scoreError || thoughtsError) return "An error has occurred";
 
-  console.log({ score });
-
   return (
-    <Container style={{ padding: "20px" }}>
-      <Grid container direction="column" alignItems="center">
-        <Grid size={{ xs: 12, sm: 10, md: 8, lg: 6 }}>
-          {scoreIsPending || thoughtsIsPending ? (
-            <Loading />
-          ) : (
-            <Paper elevation={0} style={{ padding: 20 }}>
-              <Typography variant="h3">
-                Add thoughts for {score && score.name}
+    <React.Fragment>
+      <Container style={{ padding: "20px" }}>
+        {scoreIsPending || thoughtsIsPending || !score ? (
+          <Loading />
+        ) : (
+          <React.Fragment>
+            <div style={{ display: "flex" }}>
+              <Typography variant="h4" style={{ flex: 1 }}>
+                Thoughts for{" "}
+                <div
+                  style={{ display: "inline", cursor: "pointer" }}
+                  onClick={() => {
+                    navigate(`/score/${score.id}`);
+                  }}
+                >
+                  {score.name}
+                </div>
               </Typography>
-
-              <Formik
-                initialValues={initialValues}
-                validationSchema={createThoughtSchema}
-                onSubmit={async (values) => {
-                  const createThoughtRes = await createThought({
-                    scoreId: scoreId!,
-                    ...values,
-                  });
-                  console.log({ createThoughtRes });
-                }}
+              <Button
+                variant="contained"
+                onClick={() => setShowAddThought(true)}
               >
-                {({
-                  values,
-                  errors,
-                  handleSubmit,
-                  isSubmitting,
-                  setFieldValue,
-                }) => {
-                  return (
-                    <FormControl fullWidth>
-                      <FormGroup style={{ marginTop: 20 }}>
-                        <FormLabel>Title</FormLabel>
-                        <TextField
-                          fullWidth
-                          name="title"
-                          placeholder="Title"
-                          value={values.title}
-                          onChange={(e) =>
-                            setFieldValue("title", e.target.value)
-                          }
-                          error={!!errors.title}
-                        />
-                        {errors.title && (
-                          <Typography variant="body2" color="red">
-                            {errors.title}
-                          </Typography>
-                        )}
-                      </FormGroup>
-
-                      <FormGroup style={{ marginTop: 20 }}>
-                        <FormLabel>Body</FormLabel>
-                        <TextField
-                          fullWidth
-                          name="body"
-                          placeholder="The main content"
-                          value={values.body}
-                          onChange={(e) =>
-                            setFieldValue("body", e.target.value)
-                          }
-                          error={!!errors.body}
-                        />
-                        {errors.body && (
-                          <Typography variant="body2" color="red">
-                            {errors.body}
-                          </Typography>
-                        )}
-                      </FormGroup>
-
-                      <FormGroup style={{ marginTop: 20 }}>
-                        <FormLabel>Priority</FormLabel>
-                        <TextField
-                          fullWidth
-                          name="priority"
-                          placeholder="The main content"
-                          type="number"
-                          value={values.priority}
-                          onChange={(e) =>
-                            setFieldValue("priority", e.target.value)
-                          }
-                          error={!!errors.priority}
-                        />
-                        {errors.priority && (
-                          <Typography variant="body2" color="red">
-                            {errors.priority}
-                          </Typography>
-                        )}
-                      </FormGroup>
-
-                      <FormGroup>
-                        <Button
-                          onClick={() => handleSubmit()}
-                          variant="contained"
-                          style={{ marginTop: 20, maxWidth: 100 }}
-                          disabled={
-                            Object.keys(errors).length > 0 || isSubmitting
-                          }
-                        >
-                          Next
-                        </Button>
-
-                        {Object.keys(errors).length > 0 && (
-                          <Typography
-                            variant="body2"
-                            color="red"
-                            style={{ marginTop: 10 }}
-                          >
-                            There are errors on the form, please fix before
-                            continuing.
-                          </Typography>
-                        )}
-                      </FormGroup>
-                    </FormControl>
-                  );
-                }}
-              </Formik>
-            </Paper>
-          )}
-        </Grid>
-      </Grid>
-    </Container>
+                Add new <Add style={{ marginLeft: 5 }} />
+              </Button>
+            </div>
+            {thoughts
+              .sort((a, b) => a.priority - b.priority)
+              ?.map((thought) => (
+                <ThoughtCard
+                  thought={thought}
+                  setSelectedThought={setSelectedThought}
+                  setShowAddThought={setShowAddThought}
+                />
+              ))}
+          </React.Fragment>
+        )}
+      </Container>
+      {score && (
+        <AddThoughtForm
+          open={showAddThought}
+          setOpen={setShowAddThought}
+          score={score}
+          selectedThought={selectedThought}
+          refetchThoughts={refetchThoughts}
+        />
+      )}
+    </React.Fragment>
   );
 };

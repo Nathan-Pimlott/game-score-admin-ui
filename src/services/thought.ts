@@ -1,5 +1,5 @@
 import { IThought, IThoughtToCreate } from "../types";
-import { del, get, post } from "../utils/request";
+import { del, get, post, put } from "../utils/request";
 
 export async function getThoughts(scoreId: string): Promise<IThought[]> {
   try {
@@ -37,6 +37,22 @@ export async function deleteThought(id: string): Promise<boolean> {
     const deleteThoughtRes = await del(`/thought/${id}`);
 
     if (!deleteThoughtRes.error) {
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function updateThought(thought: IThought): Promise<boolean> {
+  try {
+    const updateThoughtRes = await put("/thought", thought);
+
+    console.log({ updateThoughtRes });
+
+    if (!updateThoughtRes.error) {
       return true;
     }
 

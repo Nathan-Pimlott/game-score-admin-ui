@@ -13,6 +13,7 @@
     "format:check": "prettier './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.26.7",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fontsource/roboto": "^5.0.13",
@@ -20,12 +21,14 @@
     "@mui/material": "^6.4.0",
     "@mui/x-date-pickers": "^7.24.1",
     "axios": "^1.7.9",
+    "babel-jest": "^29.7.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
     "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "ts-jest": "^29.2.5",
     "uuid": "^11.0.4",
     "yup": "^1.6.1"
   },

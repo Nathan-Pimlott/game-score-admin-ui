@@ -37,13 +37,10 @@ export default () => {
     isPending: getScorePending,
     error: getScoreError,
     data: score,
-    refetch,
   } = useQuery({
     queryKey: [`score-${scoreId}`],
     queryFn: async () => {
       const score = await getScore(scoreId!);
-      console.log({ scoreFormat: score });
-
       if (score) {
         return {
           ...score,
@@ -76,8 +73,6 @@ export default () => {
   if (getGenresError || getPlatformsError || getScoreError) {
     return "An error has occurred";
   }
-
-  console.log({ score });
 
   return (
     <Container style={{ padding: "20px" }}>

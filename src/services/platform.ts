@@ -1,5 +1,5 @@
-import { IPlatform } from "../types";
-import { del, get } from "../utils/request";
+import { IPlatform, IPlatformToCreate } from "../types";
+import { del, get, post, put } from "../utils/request";
 
 export async function getPlatforms(
   pageNumber: number = 0,
@@ -28,7 +28,7 @@ export async function getPlatform(id: string): Promise<IPlatform | false> {
       throw Error("Error getting platforms. Please try again later.");
     }
 
-    return platformRes.data.platforms as IPlatform;
+    return platformRes.data.platform as IPlatform;
   } catch (error) {
     return false;
   }
@@ -59,5 +59,35 @@ export async function getPlatformCount(): Promise<number> {
     return 0;
   } catch (error) {
     return 0;
+  }
+}
+
+export async function createPlatform(
+  platform: IPlatformToCreate,
+): Promise<string | false> {
+  try {
+    const createPlatformRes = await post("/platform", platform);
+
+    if (!createPlatformRes.error) {
+      return createPlatformRes.data.id;
+    }
+
+    return false;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function updatePlatform(platform: IPlatform): Promise<boolean> {
+  try {
+    const updatePlatformRes = await put("/platform", platform);
+
+    if (!updatePlatformRes.error) {
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    return false;
   }
 }

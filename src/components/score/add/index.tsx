@@ -79,8 +79,6 @@ export default () => {
                 onSubmit={async (values) => {
                   const formattedScore = formatScoreToCreate(values);
                   const createScoreRes = await createScore(formattedScore);
-                  console.log({ createScoreRes });
-
                   if (createScoreRes) {
                     navigate(`/score/thoughts/${createScoreRes}`);
                   }

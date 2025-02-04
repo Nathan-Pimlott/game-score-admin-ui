@@ -51,3 +51,19 @@ export const createThoughtSchema = yup.object().shape({
     .max(99, "Priority cannot be greater than 99.")
     .required("Priority is required."),
 });
+
+export const createGenreSchema = yup.object().shape({
+  name: yup
+    .string()
+    .min(2, "Name must be at least 2 characters.")
+    .max(50, "Name cannot exceed 50 characters.")
+    .required("Name is required."),
+});
+
+export const createPlatformSchema = yup.object().shape({
+  name: yup
+    .string()
+    .min(2, "Name must be at least 2 characters.")
+    .max(50, "Name cannot exceed 50 characters.")
+    .required("Name is required."),
+});

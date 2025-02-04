@@ -1,27 +1,14 @@
 import * as React from "react";
 import _ from "lodash";
 import { useNavigate, useParams } from "react-router";
-import { Formik } from "formik";
 import { useQuery } from "@tanstack/react-query";
-import {
-  Container,
-  FormControl,
-  FormGroup,
-  FormLabel,
-  Paper,
-  TextField,
-  Grid2 as Grid,
-  Typography,
-  Button,
-  Tooltip,
-} from "@mui/material";
+import { Container, Typography, Button } from "@mui/material";
 
 import { Loading } from "../core/loading";
 import { getScore } from "../../services/score";
 import { getThoughts } from "../../services/thought";
 import { AddThoughtForm } from "./form";
-import { Add, Edit } from "@mui/icons-material";
-import { theme } from "../../utils/theme";
+import { Add } from "@mui/icons-material";
 import { ThoughtCard } from "./thoughtCard";
 
 export default () => {

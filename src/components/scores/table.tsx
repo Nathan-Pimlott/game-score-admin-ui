@@ -97,12 +97,10 @@ export function ScoreTable({
   const emptyRows =
     pageNumber > 0 ? Math.max(0, scoresPerPage - scores.length) : 0;
 
-  console.log({ emptyRows });
-
   return (
     <React.Fragment>
       <Box sx={{ width: "100%" }}>
-        <Paper sx={{ width: "100%", mb: 2 }}>
+        <Paper sx={{ width: "100%", mb: 2 }} style={{ marginTop: 20 }}>
           <TableContainer>
             <Table>
               <TableHeader />

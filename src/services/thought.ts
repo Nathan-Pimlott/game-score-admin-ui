@@ -4,7 +4,6 @@ import { del, get, post, put } from "../utils/request";
 export async function getThoughts(scoreId: string): Promise<IThought[]> {
   try {
     const thoughtRes = await get(`/thoughts/${scoreId}`);
-    console.log({ thoughtRes });
 
     if (!thoughtRes.error) {
       return thoughtRes.data.thoughts as IThought[];
@@ -49,8 +48,6 @@ export async function deleteThought(id: string): Promise<boolean> {
 export async function updateThought(thought: IThought): Promise<boolean> {
   try {
     const updateThoughtRes = await put("/thought", thought);
-
-    console.log({ updateThoughtRes });
 
     if (!updateThoughtRes.error) {
       return true;

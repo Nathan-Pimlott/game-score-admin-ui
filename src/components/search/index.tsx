@@ -39,7 +39,6 @@ export default () => {
     queryFn: async () => {
       return await getScoresBySearch(searchText!, page, scoresPerPage);
     },
-    // refetchOnWindowFocus: false,
   });
 
   async function handleDeleteScore() {
@@ -49,8 +48,6 @@ export default () => {
   if (error) {
     return <div>Error!</div>;
   }
-
-  console.log({ scoreCount, scores });
 
   return (
     <Container style={{ padding: "20px" }}>

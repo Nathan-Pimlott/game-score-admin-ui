@@ -32,6 +32,7 @@ export default () => {
     isPending,
     error,
     data: platforms,
+    refetch,
   } = useQuery({
     // This allows it to auto refetch when state changes.
     queryKey: [`platforms-${page}-${platformsPerPage}`],
@@ -43,6 +44,8 @@ export default () => {
 
   async function handleDeletePlatform() {
     await deletePlatform(platformToDelete!);
+    setPlatformToDelete(undefined);
+    refetch();
   }
 
   if (error) {

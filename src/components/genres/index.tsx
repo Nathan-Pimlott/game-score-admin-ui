@@ -28,6 +28,7 @@ export default () => {
     isPending,
     error,
     data: genres,
+    refetch,
   } = useQuery({
     // This allows it to auto refetch when state changes.
     queryKey: [`genres-${page}-${genresPerPage}`],
@@ -39,6 +40,8 @@ export default () => {
 
   async function handleDeleteGenre() {
     await deleteGenre(genreToDelete!);
+    setGenreToDelete(undefined);
+    refetch();
   }
 
   if (error) {
@@ -47,48 +50,38 @@ export default () => {
 
   return (
     <Container style={{ padding: "20px" }}>
-      <div style={{ display: "flex" }}>
-        <Typography variant="h2" style={{ flex: 1 }}>
-          All Genres
-        </Typography>
-        <Typography variant="h2">
-          <Button
-            variant="contained"
-            style={{ borderRadius: 20, padding: "10px 20px" }}
-            onClick={() => {
-              navigate("/genre/add");
-            }}
-          >
-            Add new
-            <Add style={{ marginLeft: 5 }} />
-          </Button>
-        </Typography>
-      </div>
-      <Grid
-        container
-        direction="column"
-        style={{ marginTop: 10 }}
-        sx={{
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <Grid size={{ xs: 12, sm: 8, md: 6, lg: 4 }}>
+        <div style={{ display: "flex" }}>
+          <Typography variant="h2" style={{ flex: 1 }}>
+            All Genres
+          </Typography>
+          <Typography variant="h2">
+            <Button
+              variant="contained"
+              style={{ borderRadius: 20, padding: "10px 20px" }}
+              onClick={() => {
+                navigate("/genre/add");
+              }}
+            >
+              Add new
+              <Add style={{ marginLeft: 5 }} />
+            </Button>
+          </Typography>
+        </div>
         {isPending || !genres || !genreCount ? (
           <Loading />
         ) : (
-          <Grid size={{ xs: 12, sm: 8, md: 6, lg: 4 }}>
-            <GenreTable
-              genres={genres}
-              pageNumber={page}
-              setPageNumber={setPage}
-              genresPerPage={genresPerPage}
-              setGenresPerPage={setGenresPerPage}
-              genreCount={genreCount}
-              showDelete={genreToDelete}
-              setShowDelete={setGenreToDelete}
-              handleDeleteGenre={handleDeleteGenre}
-            />
-          </Grid>
+          <GenreTable
+            genres={genres}
+            pageNumber={page}
+            setPageNumber={setPage}
+            genresPerPage={genresPerPage}
+            setGenresPerPage={setGenresPerPage}
+            genreCount={genreCount}
+            showDelete={genreToDelete}
+            setShowDelete={setGenreToDelete}
+            handleDeleteGenre={handleDeleteGenre}
+          />
         )}
       </Grid>
     </Container>

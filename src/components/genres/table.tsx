@@ -1,4 +1,3 @@
-import moment from "moment";
 import {
   Box,
   Table,
@@ -92,7 +91,7 @@ export function GenreTable({
   return (
     <React.Fragment>
       <Box sx={{ width: "100%" }}>
-        <Paper sx={{ width: "100%", mb: 2 }}>
+        <Paper sx={{ width: "100%", mb: 2 }} style={{ marginTop: 20 }}>
           <TableContainer>
             <Table>
               <TableHeader />
@@ -149,7 +148,8 @@ export function GenreTable({
         <DialogTitle>Delete genre</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this genre? This cannot be undone.
+            Are you sure you want to delete this genre? Any links to scores will
+            be deleted but the score will not be deleted.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

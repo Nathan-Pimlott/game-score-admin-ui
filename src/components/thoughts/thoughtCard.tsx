@@ -1,6 +1,8 @@
 import { Edit } from "@mui/icons-material";
 import { Paper, Tooltip, Typography } from "@mui/material";
+
 import { theme } from "../../utils/theme";
+import { IThought } from "../../types";
 
 interface IProps {
   thought: IThought;

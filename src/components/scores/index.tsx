@@ -1,7 +1,7 @@
 import { useState } from "react";
 import _ from "lodash";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Container, Grid2, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 
 import { deleteScore, getScoreCount, getScores } from "../../services/score";
 import { ScoreTable } from "./table";
@@ -64,31 +64,21 @@ export default () => {
           </Button>
         </Typography>
       </div>
-      <Grid2
-        container
-        direction="column"
-        style={{ marginTop: 10 }}
-        sx={{
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {isPending || !scores || !scoreCount ? (
-          <Loading />
-        ) : (
-          <ScoreTable
-            scores={scores}
-            pageNumber={page}
-            setPageNumber={setPage}
-            scoresPerPage={scoresPerPage}
-            setScoresPerPage={setScoresPerPage}
-            scoreCount={scoreCount}
-            showDelete={scoreToDelete}
-            setShowDelete={setScoreToDelete}
-            handleDeleteScore={handleDeleteScore}
-          />
-        )}
-      </Grid2>
+      {isPending || !scores || !scoreCount ? (
+        <Loading />
+      ) : (
+        <ScoreTable
+          scores={scores}
+          pageNumber={page}
+          setPageNumber={setPage}
+          scoresPerPage={scoresPerPage}
+          setScoresPerPage={setScoresPerPage}
+          scoreCount={scoreCount}
+          showDelete={scoreToDelete}
+          setShowDelete={setScoreToDelete}
+          handleDeleteScore={handleDeleteScore}
+        />
+      )}
     </Container>
   );
 };

@@ -1,5 +1,5 @@
-import { IGenre } from "../types";
-import { del, get } from "../utils/request";
+import { IGenre, IGenreToCreate } from "../types";
+import { del, get, post, put } from "../utils/request";
 
 export async function getGenres(
   pageNumber: number = 0,
@@ -28,7 +28,7 @@ export async function getGenre(id: string): Promise<IGenre | false> {
       throw Error("Error getting genres. Please try again later.");
     }
 
-    return genreRes.data.genres as IGenre;
+    return genreRes.data.genre as IGenre;
   } catch (error) {
     return false;
   }
@@ -59,5 +59,35 @@ export async function getGenreCount(): Promise<number> {
     return 0;
   } catch (error) {
     return 0;
+  }
+}
+
+export async function createGenre(
+  genre: IGenreToCreate,
+): Promise<string | false> {
+  try {
+    const createGenreRes = await post("/genre", genre);
+
+    if (!createGenreRes.error) {
+      return createGenreRes.data.id;
+    }
+
+    return false;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function updateGenre(genre: IGenre): Promise<boolean> {
+  try {
+    const updateGenreRes = await put("/genre", genre);
+
+    if (!updateGenreRes.error) {
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    return false;
   }
 }

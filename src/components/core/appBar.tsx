@@ -38,7 +38,7 @@ export default () => {
               variant="caption"
               style={{ margin: "auto 0 0 0" }}
             >
-              By {import.meta.env.VITE_USERNAME}
+              Admin
             </Typography>
           </div>
           <div style={{ flex: 1 }} />
@@ -46,7 +46,7 @@ export default () => {
             style={{ marginRight: 20, cursor: "pointer" }}
             onClick={() => navigate("/")}
           >
-            <Typography>Home</Typography>
+            <Typography>Scores</Typography>
           </div>
           <div
             style={{ marginRight: 20, cursor: "pointer" }}
@@ -59,12 +59,6 @@ export default () => {
             onClick={() => navigate("/platforms")}
           >
             <Typography>Platforms</Typography>
-          </div>
-          <div
-            style={{ marginRight: 40, cursor: "pointer" }}
-            onClick={() => navigate("/a-to-z")}
-          >
-            <Typography>A-Z</Typography>
           </div>
           <div>
             <Paper

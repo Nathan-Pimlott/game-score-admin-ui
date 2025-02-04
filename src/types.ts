@@ -1,5 +1,3 @@
-export type Platform = "Switch" | "Steam" | "DS" | "PS4" | "Gameboy";
-
 export interface IScoreCompact {
   id: string;
   name: string;
@@ -11,26 +9,44 @@ export interface IScoreCompact {
 export interface IScore extends IScoreCompact {
   playedPlatforms?: IPlatform[];
   genres?: IGenre[];
-  thoughts?: IThoughts[];
+  thoughts?: IThought[];
 }
 
-export type IScoreToCreate = Omit<IScore, "id">;
+export type IScoreToCreate = Omit<IScore, "id"> & {
+  playedPlatforms: string[];
+  genres: string[];
+};
+
+export type IScoreToUpdate = IScore & {
+  playedPlatforms: string[];
+  genres: string[];
+};
 
 export interface IGenre {
   id: string;
   name: string;
   featuredScores?: IScoreCompact[];
+  scoreCount?: number;
 }
 
 export interface IPlatform {
   id: string;
-  name: Platform;
+  name: string;
   featuredScores?: IScoreCompact[];
+  scoreCount?: number;
 }
 
-export interface IThoughts {
+export interface IThought {
   id: string;
   priority: number;
   title: string;
   body: string;
 }
+
+export type IThoughtToCreate = Omit<IThought, "id"> & {
+  scoreId: string;
+};
+
+export type IGenreToCreate = Omit<IGenre, "id">;
+
+export type IPlatformToCreate = Omit<IPlatform, "id">;

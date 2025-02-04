@@ -1,46 +1,98 @@
+import { useState } from "react";
 import _ from "lodash";
+import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Container, Typography } from "@mui/material";
+import { Button, Container, Grid2, Typography } from "@mui/material";
+import { Add } from "@mui/icons-material";
 
+import {
+  deleteScore,
+  getScoresBySearch,
+  getSearchScoreCount,
+} from "../../services/score";
+import { ScoreTable } from "./table";
 import { Loading } from "../core/loading";
-import { getScoresBySearch } from "../../services/score";
-import { CompactScore } from "../core/compactScore";
-import { useParams } from "react-router";
 
 export default () => {
-  const { searchText = "" } = useParams();
+  const navigate = useNavigate();
+  const { searchText } = useParams();
+
+  const { data: scoreCount } = useQuery({
+    queryKey: [`scores-${searchText}-count`],
+    queryFn: async () => {
+      return await getSearchScoreCount(searchText!);
+    },
+    refetchOnWindowFocus: false,
+  });
+
+  const [page, setPage] = useState(0);
+  const [scoresPerPage, setScoresPerPage] = useState(5);
+  const [scoreToDelete, setScoreToDelete] = useState();
 
   const {
     isPending,
     error,
-    data: scoresBySearch,
+    data: scores,
   } = useQuery({
-    queryKey: [`scores-by-search-${searchText}`],
-    queryFn: async () => await getScoresBySearch(searchText),
+    // This allows it to auto refetch when state changes.
+    queryKey: [`scores-${searchText}-${page}-${scoresPerPage}`],
+    queryFn: async () => {
+      return await getScoresBySearch(searchText!, page, scoresPerPage);
+    },
   });
 
+  async function handleDeleteScore() {
+    await deleteScore(scoreToDelete!);
+  }
+
+  if (error) {
+    return <div>Error!</div>;
+  }
+
   return (
-    <Container style={{ padding: "20px", minHeight: "100%" }}>
-      <Typography variant="h2">Search</Typography>
-      <Typography variant="h6">View the search results below.</Typography>
-      {isPending ? (
-        <Loading />
-      ) : scoresBySearch && scoresBySearch.length > 0 ? (
-        scoresBySearch.map((score, idx) => (
-          <CompactScore score={score} key={idx} />
-        ))
-      ) : (
-        <div style={{ height: "100%" }}>
-          <Typography
-            variant="h5"
-            style={{ textAlign: "center", margin: "auto", marginTop: 40 }}
+    <Container style={{ padding: "20px" }}>
+      <div style={{ display: "flex" }}>
+        <Typography variant="h2" style={{ flex: 1 }}>
+          Search Results
+        </Typography>
+        <div style={{ display: "flex" }}>
+          <Button
+            variant="contained"
+            style={{ borderRadius: 20, padding: "10px 20px", margin: "auto" }}
+            onClick={() => {
+              navigate("/score/add");
+            }}
           >
-            {error
-              ? "An error occurred. Please try again later"
-              : "Sorry, no matching games could be found."}
-          </Typography>
+            Add new
+            <Add style={{ marginLeft: 5 }} />
+          </Button>
         </div>
-      )}
+      </div>
+      <Grid2
+        container
+        direction="column"
+        style={{ marginTop: 10 }}
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {isPending || !scores || !scoreCount ? (
+          <Loading />
+        ) : (
+          <ScoreTable
+            scores={scores}
+            pageNumber={page}
+            setPageNumber={setPage}
+            scoresPerPage={scoresPerPage}
+            setScoresPerPage={setScoresPerPage}
+            scoreCount={scoreCount}
+            showDelete={scoreToDelete}
+            setShowDelete={setScoreToDelete}
+            handleDeleteScore={handleDeleteScore}
+          />
+        )}
+      </Grid2>
     </Container>
   );
 };
